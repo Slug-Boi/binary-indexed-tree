@@ -129,18 +129,46 @@ impl BIT {
         indices
     }
 
-    // Returns a vector of indices that are used to calculate the sum of the elements in the range [left, right]
-    fn range_sum_indices(&self, left: i32, right: i32) -> Vec<i32> {
-        let mut left_indices = self.sum_indices(left - 1);
-        let mut right_indices = self.sum_indices(right);
+    // Returns the sum of the elements in the range [start, end]
+    fn range_sum(&self, start: i32, end: i32) -> i32 {
+        // 1 indexed cause that just how it be
+        let start = start + 1;
+        let end = end + 1;
 
-        left_indices.append(&mut right_indices);
-        left_indices
+        
+        match (start, end) {
+            (start, end) if start < 0 || end < 0 => {
+                panic!("start or end index is negative");
+            }
+            (start, end) if start >= self.size || end >= self.size => {
+                panic!("start or end index is greater than size of tree");
+            }
+            (start, end) if start == end => {
+                return self.tree[start as usize];
+            }
+            (start, end) if start == 0 => {
+                return self.sum(end);
+            }
+            (start, end) if start > end => {
+            panic!("start index is greater than end index");
+            }
+            _ => {}
+        };
+
+        if start > end {
+            panic!("start index is greater than end index");
+        }
+
+        self.sum(end) - self.sum(start - 1)
     }
 
-    // Returns the sum of the elements in the range [left, right]
-    fn range_sum(&self, left: i32, right: i32) -> i32 {
-        self.sum(right) - self.sum(left - 1)
+    // Returns a vector of indices that are used to calculate the sum of the elements in the range [start, end]
+    fn range_sum_indices(&self, start: i32, end: i32) -> Vec<i32> {
+        let mut start_indices = self.sum_indices(start - 1);
+        let mut end_indices = self.sum_indices(end);
+
+        start_indices.append(&mut end_indices);
+        start_indices
     }
 }
 
@@ -225,6 +253,11 @@ impl NdBIT {
     fn update(&mut self, position: Vec<i32>, val: i64) {
         // No need to create a new Vec - just pass the slice directly
         update_helper(&position, val, &mut self.tree.view_mut());
+    }
+
+    fn override_update(&mut self, position: Vec<i32>, val: i64) {
+        let diff = val - self.sum(position.clone());
+        self.update(position, diff);
     }
 
     #[new]
