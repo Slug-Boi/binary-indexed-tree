@@ -57,10 +57,10 @@ bit = BIT([1, 2, 3, 4, 5])
 # Point update: Add 5 to index 2 (0-based)
 bit.update(2, 5)
 
-# Prefix sum: Sum from index 0 to 5 (inclusive, 0-based) 
+# Prefix sum: Sum from index 0 to 2 (inclusive, 0-based) 
 print(bit.query(2))  # Output: 6 
 
-# Range sum: Sum from index 3 to 7 (inclusive, 0-based)
+# Range sum: Sum from index 2 to 4 (inclusive, 0-based)
 print(bit.range_query(2, 4))  # Output: 12
 ```
 
@@ -82,6 +82,8 @@ print(bit.range_query(2, 4))  # Output: 12
    - `range_query(l, r)` is equivalent to `query(r) - query(l-1)` (handles bounds automatically).  
 3. **Negative Deltas**:  
    - Use `update(i, -5)` to subtract values.
+
+
 
 ## Benchmarks
 *WIP*
