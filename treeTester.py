@@ -242,7 +242,7 @@ def oneDFenwickSums(queryAmount, matrix_size: int, vervose: int, json_output: bo
         full_test["fenwick_avg"] = np.average(tree_times)
         full_test["linear_total_time"] = lin_times.sum()
         full_test["fenwick_total_time"] = tree_times.sum()
-        output[f"1d_fen {test_dict["1d_fen"]}"] = full_test
+        output[f'1d_fen {test_dict["1d_fen"]}'] = full_test
         test_dict["1d_fen"] += 1
 
     
@@ -307,7 +307,7 @@ def twoDFenwickSums(queryAmount, MatrixDimensions: tuple[int], verbose: int, jso
         full_test["fenwick_avg"] = np.average(tree_times)
         full_test["linear_total_time"] = lin_times.sum()
         full_test["fenwick_total_time"] = tree_times.sum()
-        output[f"2d_fen {test_dict["2d_fen"]}"] = full_test
+        output[f'2d_fen {test_dict["2d_fen"]}'] = full_test
         test_dict["2d_fen"] += 1
 
 
