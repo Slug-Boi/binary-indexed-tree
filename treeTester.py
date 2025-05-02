@@ -17,6 +17,7 @@ output = {}
 test_dict = {
     "1d_fen": 0,
     "2d_fen": 0,
+    "3d_fen": 0,
     "randD_fen": 0
 }
 
@@ -184,8 +185,8 @@ def threeDFenwickSums(dim: tuple[int], queryAmount: int, random_range: tuple[int
         full_test["linear_total_time"] = lin_times.sum()
         full_test["fenwick_total_time"] = tree_times.sum()
         global test_num
-        output[f"randD_fen {test_dict['randD_fen']}"] = full_test
-        test_dict["randD_fen"] += 1
+        output[f"3d_fen {test_dict['3d_fen']}"] = full_test
+        test_dict["3d_fen"] += 1
 
 def oneDFenwickSums(queryAmount, matrix_size: int, vervose: int, json_output: bool):    
     testArray = np.array(mg.create_random_ndmatrix((matrix_size,), (-10, 10)), dtype=int)
@@ -224,14 +225,14 @@ def oneDFenwickSums(queryAmount, matrix_size: int, vervose: int, json_output: bo
 
     if json_output:
         full_test = {
-            "dimension": 1,
+            "dimension": [1],
             "num_tests": queryAmount,
             "random_range": (-10, 10),
             "tests": {}
         }
         for i in range(queryAmount):
             full_test["tests"][i] = {
-                "query_position": queryPositions[i],
+                "query_position": queryPositions,
                 "linear_time": lin_times[i],
                 "linear_result": int(correct),
                 "fenwick_time": tree_times[i],
@@ -289,7 +290,7 @@ def twoDFenwickSums(queryAmount, MatrixDimensions: tuple[int], verbose: int, jso
 
     if json_output:
         full_test = {
-            "dimension": 2,
+            "dimension": MatrixDimensions,
             "num_tests": queryAmount,
             "random_range": random_range,
             "tests": {}
